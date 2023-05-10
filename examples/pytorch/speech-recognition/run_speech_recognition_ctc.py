@@ -30,7 +30,7 @@ import datasets
 import evaluate
 import numpy as np
 import torch
-from datasets import DatasetDict, load_dataset
+from datasets import Audio, DatasetDict, load_dataset
 
 import transformers
 from transformers import (
@@ -579,6 +579,7 @@ def main():
         cache_dir=model_args.cache_dir,
         config=config,
         use_auth_token=data_args.use_auth_token,
+        ignore_mismatched_sizes=True  # Ignore error when checkpoint output size is different from current (new) model
     )
 
     # freeze encoder
@@ -589,6 +590,13 @@ def main():
     # Thankfully, `datasets` takes care of automatically loading and resampling the audio,
     # so that we just need to set the correct target sampling rate and normalize the input
     # via the `feature_extractor`
+
+    # If audio_column_name is the file path, open the files and convert them to Audio
+    if next(iter(raw_datasets.values())).features[data_args.audio_column_name].dtype == "string":
+        for dataset_division in raw_datasets:
+            raw_datasets[dataset_division] = raw_datasets[dataset_division].cast_column(
+                data_args.audio_column_name, Audio(sampling_rate=feature_extractor.sampling_rate)
+            )
 
     # make sure that dataset decodes audio with correct sampling rate
     dataset_sampling_rate = next(iter(raw_datasets.values())).features[data_args.audio_column_name].sampling_rate
