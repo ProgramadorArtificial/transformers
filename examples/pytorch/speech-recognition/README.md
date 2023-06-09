@@ -14,6 +14,57 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+# ##### Edited by Programador Artificial - Beginning \#####
+In this part of the README are the instructions and commands used to train the Wav2Vec2 model using a custom dataset
+
+In this fork I added some files that I used to make it easier to train a custom dataset:
+	
+- **prepare_data.ipynb**: Used to organize and clean the custom dataset
+- **test.ipynb**: Used to analyse checkpoints and test the model
+- **environmentWav2vec2.yml**: Anaconda environment
+
+I used the following command to do fine-tune using a single GPU in half-precision:
+
+``` bash
+python run_speech_recognition_ctc.py \
+	--dataset_name="tsv" \
+	--model_name_or_path="facebook/wav2vec2-large-xlsr-53-portuguese" \
+	--output_dir="./custom" \
+	--overwrite_output_dir \
+	--num_train_epochs="300" \
+	--per_device_train_batch_size="4" \
+	--per_device_eval_batch_size="4" \
+	--dataloader_num_workers="4" \
+	--gradient_accumulation_steps="2" \
+	--learning_rate="3e-4" \
+	--warmup_steps="500" \
+	--evaluation_strategy="steps" \
+	--audio_column_name="path" \
+	--text_column_name="sentence" \
+	--save_steps="4000" \
+	--eval_steps="4000" \
+	--eval_metrics wer cer \
+	--save_total_limit="7" \
+	--preprocessing_num_workers="12" \
+	--gradient_checkpointing \
+	--fp16 \
+	--do_train --do_eval
+ ```
+
+If you only want to do the pre-processing (and not train at the moment), add at the end of the above code.
+```
+--preprocessing_only
+```
+
+The trained model is available on HuggingFace: [ProgramadorArtificial/wav2vec2-large-xlsr-53-portuguese](https://huggingface.co/ProgramadorArtificial/wav2vec2-large-xlsr-53-portuguese)
+
+## Autor
+* **Programador Artificial** - [GitHub](https://github.com/ProgramadorArtificial) - [YouTube](https://www.youtube.com/@ProgramadorArtificial)
+
+# ##### Edited by Programador Artificial - End \#####
+
+
+
 # Automatic Speech Recognition Examples
 
 ## Table of Contents
