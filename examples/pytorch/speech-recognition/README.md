@@ -58,6 +58,8 @@ If you only want to do the pre-processing (and not train at the moment), add at 
 
 The trained model is available on HuggingFace: [ProgramadorArtificial/wav2vec2-large-xlsr-53-portuguese](https://huggingface.co/ProgramadorArtificial/wav2vec2-large-xlsr-53-portuguese)
 
+Video explaining how to use this repository (portuguese) : https://youtu.be/ff_NQVUwtx4
+
 ## Autor
 * **Programador Artificial** - [GitHub](https://github.com/ProgramadorArtificial) - [YouTube](https://www.youtube.com/@ProgramadorArtificial)
 
